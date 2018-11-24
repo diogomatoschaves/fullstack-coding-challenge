@@ -37,3 +37,7 @@ You can find more info about the api at [https://developers.unbabel.com](https:/
 #### Resources
 * Unbabel's API: http://developers.unbabel.com/
 
+Install dependencies with:
+
+pip install -r requirements.txt
+
