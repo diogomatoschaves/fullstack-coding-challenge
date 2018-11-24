@@ -10,6 +10,7 @@ built on top of the Flask Framework.
 
 ## Prerequisites
 
+You need to have python 3 and npm installed in your machine.
 
 
 ## Installation & Usage

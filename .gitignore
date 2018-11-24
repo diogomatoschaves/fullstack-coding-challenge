@@ -1,9 +1,11 @@
-backend/venv_unbabel
-.env
+backend/env
+backend/.env
 __pycache__/
+.idea/
 
 # dependencies
 frontend/node_modules
+frontend/.env
 frontend/.pnp
 frontend/.pnp.js
 
