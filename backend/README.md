@@ -1,6 +1,6 @@
 ### Install Backend dependencies and run server
 
-In order to install the server dependencies as per `api-server/package.json`, run the following commands on your terminal:
+In order to install the server dependencies as per `requirements.txt`, run the following commands on your terminal:
 
 `cd backend` <br>
 `pip install -r requirements.txt`
