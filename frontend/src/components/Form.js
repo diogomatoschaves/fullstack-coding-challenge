@@ -27,7 +27,7 @@ class Form extends Component {
 
     this.setState({
       showMessage: true,
-      message: 'Your request for translation was sent!',
+      message: 'Your request was sent!',
       bsStyle: 'success'
     })
     setTimeout(() => {
@@ -111,7 +111,7 @@ class Form extends Component {
     const { text, message, showMessage, bsStyle } = this.state
     
     return (
-      <div className="flex-row" style={{width: '80%', maxWidth: '800px', justifyContent: 'space-around'}}>
+      <div className="flex-row" style={{width: '80%', maxWidth: '850px', justifyContent: 'space-around'}}>
         <FormGroup style={{width: '77%'}}>
           <ControlLabel>Text to be translated</ControlLabel>
           <FormControl
@@ -124,7 +124,7 @@ class Form extends Component {
         </FormGroup>
         <div className="flex-row" style={{width: '20%'}}>
           <Button disabled={!text} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
-            Request
+            Send Request
           </Button>
         </div>
         <ListGroupItem

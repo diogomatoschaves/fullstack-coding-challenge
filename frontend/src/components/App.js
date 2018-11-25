@@ -7,7 +7,6 @@ import TranslationsList from './TranslationsList'
 class App extends Component {
 
   state = {
-    disabledIds: []
   }
 
   componentDidMount() {
@@ -27,7 +26,8 @@ class App extends Component {
             this.addTranslation({ 
               id: String(job.id),
               originalText: job.original_text, 
-              sourceLang: job.source_lang, 
+              translatedText: job.translated_text,
+              sourceLang: job.source_lang,
               targetLang: job.target_lang, 
               status: job.status,
               uid: job.uid
@@ -35,18 +35,20 @@ class App extends Component {
           })
         }
       })
-
   }
   
   checkStatus = (itemsToCheck) => {
     
     const headers = new Headers()
     
-    this.setState((state) => {
-      return {disabledIds: [...state.disabledIds, ...itemsToCheck.map(item => item.id)]}
-    })
+    // this.setState((state) => {
+    //   return {disabledIds: [...state.disabledIds, ...itemsToCheck.map(item => item.id)]}
+    // })
 
     itemsToCheck.forEach((item) => {
+      
+      this.updateTranslation(item.id, {disabled: true})
+      
       const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
       : process.env.REACT_APP_API_URL_PRODUCTION}/check_status?uid=${item.uid}&id=${item.id}`;
 
@@ -56,6 +58,9 @@ class App extends Component {
       })
         .then(res => res.json())
         .then(response => {
+          
+          this.updateTranslation(item.id, {disabled: false})
+          
           if (response.status === 'completed') {
             this.updateTranslation(item.id, {
               status: 'completed',

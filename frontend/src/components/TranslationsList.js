@@ -4,7 +4,7 @@
 
 
 import React, { Component } from 'react'
-import { ListGroup, ListGroupItem, Button, ButtonGroup } from 'react-bootstrap'
+import { ListGroup, ListGroupItem, Button, ButtonGroup, Well } from 'react-bootstrap'
 
 
 class TranslationsList extends Component {
@@ -46,7 +46,7 @@ class TranslationsList extends Component {
     const { translations, styleOptions, expandTranslation, checkStatus } = this.props
     
     return (
-      <div className="flex-row" style={{width: '80%', maxWidth: '800px', justifyContent: 'space-around'}}>
+      <div className="flex-row" style={{width: '80%', maxWidth: '850px', justifyContent: 'space-around'}}>
         <ListGroup style={{width: '100%'}}>
           {translations && Object.keys(translations).map(translation => {
 
@@ -68,15 +68,15 @@ class TranslationsList extends Component {
                     {data.expanded && (
                       <div style={{width: '100%', marginTop: '15px'}}>
                         <strong>Original Text:</strong>
-                        <div style={{width: '100%'}}>
+                        <Well style={{width: '100%'}}>
                           {data.originalText}
-                        </div>
+                        </Well>
                         {data.translatedText && (
                           <div style={{width: '100%', marginTop: '15px'}}>
                             <strong>Translated Text:</strong>
-                            <div style={{width: '100%'}}>
+                            <Well style={{width: '100%'}}>
                               {data.translatedText}
-                            </div>
+                            </Well>
                           </div>
                         )}
                       </div>
@@ -84,14 +84,14 @@ class TranslationsList extends Component {
                   </div>
                 </ListGroupItem>
                 <div style={{width: '20%'}}>
-                  <ButtonGroup>
+                  <ButtonGroup style={{whiteSpace: 'nowrap'}}>
                     <Button
                       onClick={() => checkStatus([{id: data.id, uid: data.uid}])}
-                      disabled={data.status !== 'pending'}
+                      disabled={data.status !== 'pending' || data.disabled}
                       bsStyle="info"
                       // style={{maxWidth: '100px'}}
                     >
-                      Update
+                      {data.disabled ? 'Checking..' : 'Update'}
                     </Button>
                     <Button 
                       bsStyle="danger"
