@@ -108,7 +108,7 @@ class TranslationsList extends Component {
                     )}
                   </div>
                 </ListGroupItem>
-                <div style={{width: '20%', textAlign: 'center'}}>
+                <div style={{width: '20%', textAlign: 'center', alignSelf: 'flex-start', paddingTop: '20px'}}>
                   <ButtonGroup style={{whiteSpace: 'nowrap'}}>
                     <Button
                       onClick={() => checkStatus([{id: translation.id, uid: translation.uid}])}
