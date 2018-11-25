@@ -7,18 +7,66 @@ import TranslationsList from './TranslationsList'
 class App extends Component {
 
   state = {
-    translations: {
-      "141477b9-102b-4024-b4ac-31fba1a23a4f" : {
-        id: "141477b9-102b-4024-b4ac-31fba1a23a4f",
-        status: "requesting",
-        text: "Hello World, this is the Moon. It's been a while",
-        translated: 'Hola Mundo, aqui te habla la Luna. Ha pasado un ratito',
-        expanded: false
-      }
-    }
+    disabledIds: []
+  }
+
+  componentDidMount() {
+    const headers = new Headers()
+
+    const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
+      : process.env.REACT_APP_API_URL_PRODUCTION}/get_jobs`;
+
+    fetch(url, {
+      method: 'get',
+      headers,
+    })
+      .then(res => res.json())
+      .then(response => {
+        if (response.jobs && response.jobs instanceof Array) {
+          response.jobs.forEach((job) => {
+            this.addTranslation({ 
+              id: String(job.id),
+              originalText: job.original_text, 
+              sourceLang: job.source_lang, 
+              targetLang: job.target_lang, 
+              status: job.status,
+              uid: job.uid
+            })
+          })
+        }
+      })
+
   }
   
-  addTranslation = ({ jobId, id, text, sourceLang, targetLang, status }) => {
+  checkStatus = (itemsToCheck) => {
+    
+    const headers = new Headers()
+    
+    this.setState((state) => {
+      return {disabledIds: [...state.disabledIds, ...itemsToCheck.map(item => item.id)]}
+    })
+
+    itemsToCheck.forEach((item) => {
+      const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
+      : process.env.REACT_APP_API_URL_PRODUCTION}/check_status?uid=${item.uid}&id=${item.id}`;
+
+      fetch(url, {
+        method: 'get',
+        headers,
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.status === 'completed') {
+            this.updateTranslation(item.id, {
+              status: 'completed',
+              translatedText: response.translatedText
+            })
+          }
+        })
+    })
+  }
+  
+  addTranslation = ({ jobId, id, originalText, translatedText, sourceLang, targetLang, status, uid }) => {
     this.setState((state) => {
       return {
         translations: {
@@ -26,12 +74,29 @@ class App extends Component {
           [id]: {
             id,
             jobId,
-            text,
+            originalText,
+            translatedText,
             sourceLang,
             targetLang,
-            status
+            status,
+            uid
           }
         }
+      }
+    })
+  }
+  
+  deleteTranslation = ({ id }) => {
+    this.setState((state) => {
+      return {
+        translations: Object.keys(state.translations).reduce((newObj, translation) => {
+          // debugger
+          return translation === id ?
+            newObj : {
+            ...newObj,
+            [translation]: state.translations[translation]
+          }
+        }, {})
       }
     })
   }
@@ -41,7 +106,7 @@ class App extends Component {
       return {
         translations: Object.keys(state.translations).reduce((newObj, translation) => {
           // debugger
-          return translation == key ? {
+          return translation === key ? {
             ...newObj,
             [translation]: {
               ...state.translations[translation],
@@ -60,7 +125,7 @@ class App extends Component {
     this.setState((state) => {
       return {
         translations: Object.keys(state.translations).reduce((newObj, translation) => {
-          return translation == key ? {
+          return translation === key ? {
             ...newObj, 
             [translation]: {
               ...state.translations[translation],
@@ -80,7 +145,7 @@ class App extends Component {
     this.setState((state) => {
       return {
         translations: Object.keys(state.translations).reduce((newObj, translation) => {
-          return translation == key ? {
+          return translation === key ? {
             ...newObj,
             [translation]: {
               ...state.translations[translation],
@@ -106,10 +171,14 @@ class App extends Component {
           addUid={this.addUid}
           addTranslation={this.addTranslation}
           updateTranslation={this.updateTranslation}
+          checkStatus={this.checkStatus}
+          translations={translations}
         />
         <TranslationsList
           translations={translations}
           expandTranslation={this.expandTranslation}
+          checkStatus={this.checkStatus}
+          deleteTranslation={this.deleteTranslation}
         />
       </div>
     );

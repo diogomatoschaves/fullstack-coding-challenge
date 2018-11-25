@@ -18,39 +18,12 @@ class Form extends Component {
     text: ''
   }
 
-  checkStatus = (itemsToCheck) => {
-    
-    const { updateTranslation } = this.props
-
-    const headers = new Headers()
-
-    itemsToCheck.forEach((item) => {
-      const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
-      : process.env.REACT_APP_API_URL_PRODUCTION}/check_status?uid=${item.uid}&id=${item.id}`;
-
-      fetch(url, {
-        method: 'get',
-        headers,
-      })
-        .then(res => res.json())
-        .then(response => {
-          if (response.status === 'completed') {
-            updateTranslation(item.id, {
-              status: 'completed',
-              translatedText: response.translatedText
-            })
-          }
-        })
-    })
-
-  }
-
   getResult = ({ jobId, id, text }) => {
 
-    const { addUid, addTranslation, updateTranslation, sourceLang, targetLang } = this.props
+    const { addUid, addTranslation, updateTranslation, checkStatus, sourceLang, targetLang } = this.props
     let i = 0
 
-    addTranslation({ id, jobId, text, sourceLang, targetLang, status: 'requesting' })
+    addTranslation({ id, jobId, originalText: text, sourceLang, targetLang, status: 'requesting' })
 
     this.setState({
       showMessage: true,
@@ -77,7 +50,7 @@ class Form extends Component {
           if (response.uid) {
             addUid(id, response.uid)
             setTimeout(() => {
-              this.checkStatus([{ id, uid: response.uid }])
+              checkStatus([{ id, uid: response.uid }])
             }, 3000)
           } else {
             if (response.status && response.status === 'failed') {
@@ -85,7 +58,8 @@ class Form extends Component {
                 status: 'failed',
               })
             } else {
-              setTimeout(timeoutCallback, (7 - i) >= 2 ? (7 - i)*1000 : 2000)
+              const { translations } = this.props
+              if (Object.keys(translations).includes(id)) setTimeout(timeoutCallback, (7 - i) >= 2 ? (7 - i)*1000 : 2000)
             }
           }
         })
@@ -137,8 +111,8 @@ class Form extends Component {
     const { text, message, showMessage, bsStyle } = this.state
     
     return (
-      <div className="flex-row" style={{width: '80%', maxWidth: '700px', justifyContent: 'space-around'}}>
-        <FormGroup style={{width: '80%'}}>
+      <div className="flex-row" style={{width: '80%', maxWidth: '800px', justifyContent: 'space-around'}}>
+        <FormGroup style={{width: '77%'}}>
           <ControlLabel>Text to be translated</ControlLabel>
           <FormControl
             value={text}
@@ -148,16 +122,17 @@ class Form extends Component {
             style={{height: '150px'}}
           />
         </FormGroup>
-        <div className="flex-row">
+        <div className="flex-row" style={{width: '20%'}}>
           <Button disabled={!text} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
             Request
           </Button>
         </div>
         <ListGroupItem
-            className='message-to-user flex-column'
-            bsSize="large"
-            bsStyle={bsStyle}
-            style={{top: showMessage ? '60px' : '-200px'}}>
+          className='message-to-user flex-column'
+          bsSize="large"
+          bsStyle={bsStyle}
+          style={{top: showMessage ? '60px' : '-200px'}}
+        >
           {message}
         </ListGroupItem>
       </div>

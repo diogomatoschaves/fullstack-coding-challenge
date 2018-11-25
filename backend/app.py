@@ -16,7 +16,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 cors = CORS(app, resources={
     r"/new_translation": {"origins": "*"},
     r'/check_confirmation*': {"origins": "*"},
-    r"/check_status/*": {"origins": "*"},
+    r"/check_status*": {"origins": "*"},
+    r"/delete_job*": {"origins": "*"},
+    r"/get_jobs*": {"origins": "*"},
 })
 
 q = Queue(connection=conn)
@@ -70,6 +72,9 @@ def check_confirmation():
 
             response = job.result
 
+            if not response:
+                jsonify({"status": 'failed'})
+
             translation_job = TranslationJobs.query.filter_by(id=id).first()
 
             translation_job.uid = response['uid'] if 'uid' in response else ''
@@ -117,6 +122,27 @@ def check_status():
             db.session.commit()
 
     return jsonify(response)
+
+
+@app.route("/delete_job", methods=['GET'])
+def delete_job():
+
+    id = request.args.get('id')
+
+    translation_job = TranslationJobs.query.filter_by(id=id).first()
+
+    db.session.delete(translation_job)
+    db.session.commit()
+
+    return jsonify({'status': 'deleted'})
+
+
+@app.route("/get_jobs", methods=['GET'])
+def get_jobs():
+
+    translation_jobs = TranslationJobs.query.all()
+
+    return jsonify(jobs=[job.serialize for job in translation_jobs])
 
 
 if __name__ == '__main__':

@@ -16,6 +16,20 @@ class TranslationJobs(db.Model):
     text_format = db.Column(db.String())
     status = db.Column(db.String())
 
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'original_text': self.original_text,
+            'translated_text': self.translated_text,
+            'source_lang': self.source_lang,
+            'target_lang': self.target_lang,
+            'uid': self.uid,
+            'text_format': self.text_format,
+            'status': self.status,
+        }
+
     # def __init__(self, url, result_all, result_no_stop_words):
     #     self.url = url
     #     self.result_all = result_all
