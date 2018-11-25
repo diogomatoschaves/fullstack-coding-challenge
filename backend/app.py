@@ -109,7 +109,7 @@ def check_status():
     if not response:
         return jsonify({'status': 'error'})
 
-    if 'status' in response['status'] and response['status'] == 'completed':
+    if 'status' in response and response['status'] == 'completed':
 
         if 'translatedText' in response and response['translatedText']:
 
