@@ -30,7 +30,8 @@ class App extends Component {
               sourceLang: job.source_lang,
               targetLang: job.target_lang, 
               status: job.status,
-              uid: job.uid
+              uid: job.uid,
+              timeStamp: job.timestamp * 1000
             })
           })
         }
@@ -40,10 +41,6 @@ class App extends Component {
   checkStatus = (itemsToCheck) => {
     
     const headers = new Headers()
-    
-    // this.setState((state) => {
-    //   return {disabledIds: [...state.disabledIds, ...itemsToCheck.map(item => item.id)]}
-    // })
 
     itemsToCheck.forEach((item) => {
       
@@ -71,7 +68,7 @@ class App extends Component {
     })
   }
   
-  addTranslation = ({ jobId, id, originalText, translatedText, sourceLang, targetLang, status, uid }) => {
+  addTranslation = ({ jobId, id, originalText, translatedText, sourceLang, targetLang, status, uid, timeStamp }) => {
     this.setState((state) => {
       return {
         translations: {
@@ -84,7 +81,8 @@ class App extends Component {
             sourceLang,
             targetLang,
             status,
-            uid
+            uid,
+            timeStamp
           }
         }
       }

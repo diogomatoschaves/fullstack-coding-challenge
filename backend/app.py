@@ -1,5 +1,6 @@
 from flask import Flask
 import os
+import time
 from models import db, TranslationJobs
 from flask import request
 from flask import jsonify
@@ -47,7 +48,8 @@ def translation():
         target_lang=data['targetLang'],
         uid='',
         text_format='',
-        status='requesting'
+        status='requesting',
+        timestamp=data['timeStamp'] / 1000
     )
 
     db.session.add(translation_job)
@@ -57,7 +59,6 @@ def translation():
 
     return jsonify({'job_id': job_id.get_id(), 'translation_job': str(translation_job.id)})
 
-    # return "Hello {}!".format(name)
 
 @app.route("/check_confirmation", methods=['GET'])
 def check_confirmation():

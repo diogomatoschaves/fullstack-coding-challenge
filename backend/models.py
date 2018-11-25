@@ -1,5 +1,4 @@
-# from .app import db
-from sqlalchemy.dialects.postgresql import JSON
+# from sqlalchemy.dialects.postgresql import JSON
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -15,6 +14,7 @@ class TranslationJobs(db.Model):
     uid = db.Column(db.String())
     text_format = db.Column(db.String())
     status = db.Column(db.String())
+    timestamp = db.Column(db.Integer())
 
     @property
     def serialize(self):
@@ -28,12 +28,7 @@ class TranslationJobs(db.Model):
             'uid': self.uid,
             'text_format': self.text_format,
             'status': self.status,
+            'timestamp': self.timestamp,
         }
 
-    # def __init__(self, url, result_all, result_no_stop_words):
-    #     self.url = url
-    #     self.result_all = result_all
-    #     self.result_no_stop_words = result_no_stop_words
-    #
-    # def __repr__(self):
-    #     return '<id {}>'.format(self.id)
+

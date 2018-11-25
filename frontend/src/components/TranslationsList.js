@@ -40,42 +40,67 @@ class TranslationsList extends Component {
         }
       })
   }
+
+  getFormattedDate = (timeStamp) => {
+
+    let difference = Date.now() - timeStamp;
+    const daysDifference = Math.floor(difference/1000/60/60/24);
+    difference -= daysDifference*1000*60*60*24;
+
+    const hoursDifference = Math.floor(difference/1000/60/60);
+    difference -= hoursDifference*1000*60*60;
+
+    const minutesDifference = Math.floor(difference/1000/60);
+    difference -= minutesDifference*1000*60;
+
+    const secondsDifference = Math.floor(difference/1000);
+
+    return daysDifference >= 1 ? `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago` :
+        hoursDifference >= 1 ? `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago` :
+            minutesDifference >= 1 ? `${minutesDifference} ${minutesDifference === 1 ? 'minute' : 'minutes'} ago` :
+                `${secondsDifference} ${secondsDifference === 1 ? 'second' : 'seconds'} ago`
+
+  };
   
   render() {
 
     const { translations, styleOptions, expandTranslation, checkStatus } = this.props
+
+    // const sortProp = optionsSort.filter((option) => option.value === valueSort)[0].key;
+
+    const orderedTranslations = translations ? Object.keys(translations).map(key => translations[key]).sort((a, b) => {
+      return b.originalText.length - a.originalText.length
+    }) : []
     
     return (
       <div className="flex-row" style={{width: '80%', maxWidth: '850px', justifyContent: 'space-around'}}>
         <ListGroup style={{width: '100%'}}>
-          {translations && Object.keys(translations).map(translation => {
-
-            const data = translations[translation]
+          {orderedTranslations && orderedTranslations.map(translation => {
 
             return (
-              <div className="flex-row" style={{width: '100%', justifyContent: 'space-between'}}>
+              <div key={translation.id} className="flex-row" style={{width: '100%', justifyContent: 'space-between'}}>
                 <ListGroupItem
-                  key={translation}
-                  bsStyle={styleOptions[data.status]}
+                  bsStyle={styleOptions[translation.status]}
                   style={{cursor: 'pointer', padding: 0, width: '77%'}}
                   className="flex-column"
                 >
-                  <div onClick={() => expandTranslation(data.id)} className="flex-column" style={{width: '100%', padding: '20px'}}>
+                  <div onClick={() => expandTranslation(translation.id)} className="flex-column" style={{width: '100%', padding: '20px'}}>
                     <div className='flex-row' style={{width: '100%', justifyContent: 'space-between'}}>
-                      <div style={{width: '60%'}} className="message-header">{data.originalText}</div>
-                      <div style={{width: '30%'}}><strong>status: </strong>{data.status}</div>
+                      <div style={{width: '40%'}} className="message-header">{translation.originalText}</div>
+                      <div style={{width: '25%', textAlign: 'center'}}><strong>time: </strong>{this.getFormattedDate(translation.timeStamp)}</div>
+                      <div style={{width: '30%', textAlign: 'right'}}><strong>status: </strong>{translation.status}</div>
                     </div>
-                    {data.expanded && (
+                    {translation.expanded && (
                       <div style={{width: '100%', marginTop: '15px'}}>
                         <strong>Original Text:</strong>
                         <Well style={{width: '100%'}}>
-                          {data.originalText}
+                          {translation.originalText}
                         </Well>
-                        {data.translatedText && (
+                        {translation.translatedText && (
                           <div style={{width: '100%', marginTop: '15px'}}>
                             <strong>Translated Text:</strong>
                             <Well style={{width: '100%'}}>
-                              {data.translatedText}
+                              {translation.translatedText}
                             </Well>
                           </div>
                         )}
@@ -83,19 +108,19 @@ class TranslationsList extends Component {
                     )}
                   </div>
                 </ListGroupItem>
-                <div style={{width: '20%'}}>
+                <div style={{width: '20%', textAlign: 'center'}}>
                   <ButtonGroup style={{whiteSpace: 'nowrap'}}>
                     <Button
-                      onClick={() => checkStatus([{id: data.id, uid: data.uid}])}
-                      disabled={data.status !== 'pending' || data.disabled}
+                      onClick={() => checkStatus([{id: translation.id, uid: translation.uid}])}
+                      disabled={translation.status !== 'pending' || translation.disabled}
                       bsStyle="info"
                       // style={{maxWidth: '100px'}}
                     >
-                      {data.disabled ? 'Checking..' : 'Update'}
+                      {translation.disabled ? 'Checking..' : 'Update'}
                     </Button>
                     <Button 
                       bsStyle="danger"
-                      onClick={() => this.deleteJob({ id: data.id })}
+                      onClick={() => this.deleteJob({ id: translation.id })}
                     >
                       Delete
                     </Button>
