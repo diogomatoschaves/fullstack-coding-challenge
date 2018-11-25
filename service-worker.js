@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/fullstack-coding-challenge/precache-manifest.78a10687ba665a69decc5f186469f5a7.js"
+  "/fullstack-coding-challenge/precache-manifest.7a6345c59d0bf4c540a4d4b410682c20.js"
 );
 
 workbox.clientsClaim();

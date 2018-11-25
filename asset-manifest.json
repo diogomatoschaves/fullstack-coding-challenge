@@ -1,7 +1,7 @@
 {
   "main.css": "/fullstack-coding-challenge/static/css/main.ee3d7e88.chunk.css",
-  "main.js": "/fullstack-coding-challenge/static/js/main.59d2be0b.chunk.js",
-  "main.js.map": "/fullstack-coding-challenge/static/js/main.59d2be0b.chunk.js.map",
+  "main.js": "/fullstack-coding-challenge/static/js/main.a9e3ca0f.chunk.js",
+  "main.js.map": "/fullstack-coding-challenge/static/js/main.a9e3ca0f.chunk.js.map",
   "static/js/1.e0ca8a09.chunk.js": "/fullstack-coding-challenge/static/js/1.e0ca8a09.chunk.js",
   "static/js/1.e0ca8a09.chunk.js.map": "/fullstack-coding-challenge/static/js/1.e0ca8a09.chunk.js.map",
   "runtime~main.js": "/fullstack-coding-challenge/static/js/runtime~main.2e20e3ae.js",
@@ -9,6 +9,6 @@
   "static/media/unbabel-logo.svg": "/fullstack-coding-challenge/static/media/unbabel-logo.6cbce8d6.svg",
   "static/css/main.ee3d7e88.chunk.css.map": "/fullstack-coding-challenge/static/css/main.ee3d7e88.chunk.css.map",
   "index.html": "/fullstack-coding-challenge/index.html",
-  "precache-manifest.78a10687ba665a69decc5f186469f5a7.js": "/fullstack-coding-challenge/precache-manifest.78a10687ba665a69decc5f186469f5a7.js",
+  "precache-manifest.7a6345c59d0bf4c540a4d4b410682c20.js": "/fullstack-coding-challenge/precache-manifest.7a6345c59d0bf4c540a4d4b410682c20.js",
   "service-worker.js": "/fullstack-coding-challenge/service-worker.js"
 }
