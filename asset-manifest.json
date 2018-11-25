@@ -1,14 +1,14 @@
 {
-  "main.css": "/fullstack-coding-challenge/static/css/main.b068e27d.chunk.css",
-  "main.js": "/fullstack-coding-challenge/static/js/main.8f1bd6c3.chunk.js",
-  "main.js.map": "/fullstack-coding-challenge/static/js/main.8f1bd6c3.chunk.js.map",
-  "static/js/1.cc9f2ddf.chunk.js": "/fullstack-coding-challenge/static/js/1.cc9f2ddf.chunk.js",
-  "static/js/1.cc9f2ddf.chunk.js.map": "/fullstack-coding-challenge/static/js/1.cc9f2ddf.chunk.js.map",
+  "main.css": "/fullstack-coding-challenge/static/css/main.ee3d7e88.chunk.css",
+  "main.js": "/fullstack-coding-challenge/static/js/main.59d2be0b.chunk.js",
+  "main.js.map": "/fullstack-coding-challenge/static/js/main.59d2be0b.chunk.js.map",
+  "static/js/1.e0ca8a09.chunk.js": "/fullstack-coding-challenge/static/js/1.e0ca8a09.chunk.js",
+  "static/js/1.e0ca8a09.chunk.js.map": "/fullstack-coding-challenge/static/js/1.e0ca8a09.chunk.js.map",
   "runtime~main.js": "/fullstack-coding-challenge/static/js/runtime~main.2e20e3ae.js",
   "runtime~main.js.map": "/fullstack-coding-challenge/static/js/runtime~main.2e20e3ae.js.map",
   "static/media/unbabel-logo.svg": "/fullstack-coding-challenge/static/media/unbabel-logo.6cbce8d6.svg",
-  "static/css/main.b068e27d.chunk.css.map": "/fullstack-coding-challenge/static/css/main.b068e27d.chunk.css.map",
+  "static/css/main.ee3d7e88.chunk.css.map": "/fullstack-coding-challenge/static/css/main.ee3d7e88.chunk.css.map",
   "index.html": "/fullstack-coding-challenge/index.html",
-  "precache-manifest.42483aacb670b6316ec7dc85520d943e.js": "/fullstack-coding-challenge/precache-manifest.42483aacb670b6316ec7dc85520d943e.js",
+  "precache-manifest.78a10687ba665a69decc5f186469f5a7.js": "/fullstack-coding-challenge/precache-manifest.78a10687ba665a69decc5f186469f5a7.js",
   "service-worker.js": "/fullstack-coding-challenge/service-worker.js"
 }
