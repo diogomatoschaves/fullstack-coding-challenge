@@ -3,35 +3,163 @@
  */
 
 import React, { Component } from 'react'
-import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, Button, ListGroupItem} from 'react-bootstrap'
 
 
 class Form extends Component {
 
-  state = {
-    message: null
+  static defaultProps = {
+    sourceLang: 'en',
+    targetLang: 'es'
   }
 
-  buttonsubmit = () => {
+  state = {
+    message: '',
+    text: ''
+  }
+
+  checkStatus = (itemsToCheck) => {
+    
+    const { updateTranslation } = this.props
+
+    const headers = new Headers()
+
+    itemsToCheck.forEach((item) => {
+      const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
+      : process.env.REACT_APP_API_URL_PRODUCTION}/check_status?uid=${item.uid}&id=${item.id}`;
+
+      fetch(url, {
+        method: 'get',
+        headers,
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.status === 'completed') {
+            updateTranslation(item.id, {
+              status: 'completed',
+              translatedText: response.translatedText
+            })
+          }
+        })
+    })
+
+  }
+
+  getResult = ({ jobId, id, text }) => {
+
+    const { addUid, addTranslation, updateTranslation, sourceLang, targetLang } = this.props
+    let i = 0
+
+    addTranslation({ id, jobId, text, sourceLang, targetLang, status: 'requesting' })
+
+    this.setState({
+      showMessage: true,
+      message: 'Your request for translation was sent!',
+      bsStyle: 'success'
+    })
+    setTimeout(() => {
+      this.setState({ showMessage: false })
+    }, 3000)
+
+    const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
+      : process.env.REACT_APP_API_URL_PRODUCTION}/check_confirmation?jobId=${jobId}&id=${id}`;
+
+    const headers = new Headers()
+
+    const timeoutCallback = () => {
+      i++
+      fetch(url, {
+        method: 'get',
+        headers,
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.uid) {
+            addUid(id, response.uid)
+            setTimeout(() => {
+              this.checkStatus([{ id, uid: response.uid }])
+            }, 3000)
+          } else {
+            if (response.status && response.status === 'failed') {
+              updateTranslation(id, {
+                status: 'failed',
+              })
+            } else {
+              setTimeout(timeoutCallback, (7 - i) >= 2 ? (7 - i)*1000 : 2000)
+            }
+          }
+        })
+    }
+    setTimeout(timeoutCallback, 7000)
+  }
+
+  buttonSubmit = () => {
+
+    const { text } = this.state
+    const { sourceLang, targetLang } = this.props
+
+    this.setState({ text: '' })
+
+    if (!text) return
+
     const headers = new Headers()
     
     const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
-      : process.env.REACT_APP_API_URL_PRODUCTION}/newsearch`;
+      : process.env.REACT_APP_API_URL_PRODUCTION}/new_translation`;
+
+    const body =  JSON.stringify({ text, sourceLang, targetLang })
     
-    fetch(url)
+    fetch(url, {
+      method: 'post',
+      headers,
+      body
+    })
+      .then(res => res.json())
+      .then(response => this.getResult({ jobId: response.job_id, id: response.translation_job, text }))
+      .catch(error => {
+        this.setState({
+          showMessage: true,
+          message: 'There was an error processing your request. Make sure you are connected to the internet.',
+          bsStyle: 'danger'
+        })
+        setTimeout(() => {
+          this.setState({ showMessage: false })
+        }, 3000)
+      })
+  }
+
+  handleChange = (e) => {
+    this.setState({ text: e.target.value });
   }
   
   render() {
+
+    const { text, message, showMessage, bsStyle } = this.state
     
     return (
-      <div className="flex-column" style={{width: '100%'}}>
-        <FormGroup style={{width: '70%'}}>
-          <ControlLabel>Message</ControlLabel>
-          <FormControl componentClass="textarea" placeholder="textarea" />
+      <div className="flex-row" style={{width: '80%', maxWidth: '700px', justifyContent: 'space-around'}}>
+        <FormGroup style={{width: '80%'}}>
+          <ControlLabel>Text to be translated</ControlLabel>
+          <FormControl
+            value={text}
+            onChange={this.handleChange}
+            componentClass="textarea"
+            placeholder="Insert your text here"
+            style={{height: '150px'}}
+          />
         </FormGroup>
-        <Button bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
-          Submit
-        </Button>
+        <div className="flex-row">
+          <Button disabled={!text} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
+            Request
+          </Button>
+        </div>
+        <ListGroupItem
+            className='message-to-user flex-column'
+            bsSize="large"
+            bsStyle={bsStyle}
+            style={{top: showMessage ? '60px' : '-200px'}}>
+          {message}
+        </ListGroupItem>
       </div>
     )
   }

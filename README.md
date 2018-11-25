@@ -10,7 +10,11 @@ built on top of the Flask Framework.
 
 ## Prerequisites
 
-You need to have python 3 and npm installed in your machine.
+You'll need to have installed in your machine the following:
+
+- python 3
+- npm
+- redis (brew install redis)
 
 
 ## Installation & Usage
