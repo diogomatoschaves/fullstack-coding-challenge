@@ -5,10 +5,12 @@ from models import db, TranslationJobs
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
-from rq import Queue
 from rq.job import Job, NoSuchJobError
-from worker import conn
-from functions import check_translation, initialize_translation
+import queue_args
+from api_calls import check_translation
+import api_calls
+from flask_injector import FlaskInjector
+
 
 
 # def create_app():
@@ -28,7 +30,7 @@ cors = CORS(app, resources={
     r"/get_jobs*": {"origins": "*"},
 })
 
-q = Queue(connection=conn)
+q = queue_args.get_queue()
 
 db.init_app(app)
 
@@ -61,7 +63,11 @@ def translation():
     db.session.add(translation_job)
     db.session.commit()
 
-    job_id = q.enqueue(initialize_translation, data)
+    # print(api_calls.initialize_translation())
+
+    # job_id = q.enqueue(api_calls.initialize_translation, data)
+    job_id = queue_args.enqueue(q, api_calls.initialize_translation, data)
+    # job_id = api_calls.initialize_translation(data)
 
     return jsonify({'job_id': job_id.get_id(), 'translation_job': str(translation_job.id)})
 
@@ -73,7 +79,7 @@ def check_confirmation():
     id = request.args.get('id')
 
     try:
-        job = Job.fetch(job_key, connection=conn)
+        job = Job.fetch(job_key, connection=queue_args.get_conn())
 
         if job.is_finished:
 

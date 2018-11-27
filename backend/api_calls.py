@@ -1,7 +1,9 @@
 import requests
+from urllib.parse import urljoin
 # from models import TranslationJobs
 # from app import db
 
+BASE_URL = 'https://sandbox.unbabel.com/tapi/v2/translation/'
 
 username = 'fullstack-challenge'
 api_key = '9db71b322d43a6ac0f681784ebdcc6409bb83359'
@@ -20,15 +22,17 @@ def initialize_translation(data):
         "text_format": "text"
     }
 
-    url = 'https://sandbox.unbabel.com/tapi/v2/translation/'
+    url = BASE_URL
 
     try:
         r = requests.post(url, headers=headers, json=payload)
-        return r.json()
+        if r.status_code < 400:
+            return r.json()
+        else:
+            return None
 
     except requests.exceptions.RequestException as e:
-        print(e)
-        return {'success': False, 'uid': None}
+        return None
 
 
 def check_translation(uid):
@@ -38,11 +42,14 @@ def check_translation(uid):
         "Content-Type": "application/json"
     }
 
-    url = 'https://sandbox.unbabel.com/tapi/v2/translation/{}/'.format(uid)
+    url = urljoin(BASE_URL, '{}/'.format(uid))
 
     try:
         r = requests.get(url, headers=headers)
-        return r.json()
+        if r.status_code < 400:
+            return r.json()
+        else:
+            return None
 
     except requests.exceptions.RequestException as e:
         print(e)

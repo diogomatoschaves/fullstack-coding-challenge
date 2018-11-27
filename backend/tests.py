@@ -109,63 +109,27 @@ class TestAppRoutes(BaseTestCase):
         )
 
 
-
-    def index(self):
-        return self.app.test_client().get('/')
-
-    # @patch('queue_args.get_conn')
-    # @patch('queue_args.get_queue')
-    # @patch('api_calls.initialize_translation')
-    def test_new_translation(self):# mock_initialize_translation):
-
-        # with patch('queue_args.get_conn') as mock_connection:
-        with patch('queue_args.enqueue') as mock_enqueue:
-        # with patch('api_calls.requests.post') as mock_initialize_translation:
-        # with patch('api_calls.initialize_translation') as mock_initialize_translation:
-
-            # mock_initialize_translation.return_value = Mock(self.assign_result())
-            # mock_connection.return_value = FakeStrictRedis()
-            # mock_queue.return_value = Queue(connection=worker.conn)
-            mock_enqueue.return_value = self.mock_job_class()
-            # mock_initialize_translation.return_value = MagicMock(status_code=200, json=self.assign_result)
-
-            mockData = {"text": "Hello world", "sourceLang": "en", "targetLang": "es", "timeStamp": 1543335821916}
-            response = self.new_translation(**mockData)
-            response = response.json
-            pattern = re.compile('^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$')
-            self.assertTrue(pattern.match(response['job_id']))
-            self.assertTrue(response['translation_job'] == "1")
-
-            job_id = response['job_id']
-
-            data = {"jobId": "84857huwdhu", "id": 1}
-            response = self.confirmation(**data)
-            self.assertEqual(response.json, {"status": 'unexistant'})
-
-            data = {"jobId": job_id, "id": 1}
-            response = self.confirmation(**data)
-            if len(response.json) > 2:
-                self.assertEqual(response.json, {
-                    "balance": 99943.0,
-                    "client": "username",
-                    "price": 6.0,
-                    "source_language": "en",
-                    "status": "new",
-                    "target_language": "pt",
-                    "text": "Hello, world!",
-                    "text_format": "text",
-                    "uid": "ac1a53a264"
-                })
-            else:
-                print(response.json)
+    @patch('queue_args.enqueue')
+    def test_new_translation(self, mock_enqueue):
 
 
+        mock_enqueue.return_value = self.mock_job_class()
+
+        mockData = {"text": "Hello world", "sourceLang": "en", "targetLang": "es", "timeStamp": 1543335821916}
+        response = self.new_translation(**mockData)
+        response = response.json
+        pattern = re.compile('^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$')
+        self.assertTrue(pattern.match(response['job_id']))
+        self.assertTrue(response['translation_job'] == "1")
 
 
-    # def test_confirmation(self):
+    def test_confirmation(self):
+
+        data = {"jobId": "84857huwdhu", "id": 1}
+        response = self.confirmation(**data)
+        self.assertEqual(response.json, {"status": 'unexistant'})
 
 
-    # @patch('api_calls.requests.get')
     @patch('api_calls.requests.get')
     def test_check_status(self, mock_check_translation):
 
