@@ -46,4 +46,4 @@ def check_translation(uid):
 
     except requests.exceptions.RequestException as e:
         print(e)
-        return {'success': False, 'uid': None}
+        return None

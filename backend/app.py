@@ -10,9 +10,15 @@ from rq.job import Job, NoSuchJobError
 from worker import conn
 from functions import check_translation, initialize_translation
 
+
+# def create_app():
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # return app
+
+# app = create_app()
 
 cors = CORS(app, resources={
     r"/new_translation": {"origins": "*"},
@@ -30,7 +36,7 @@ print(os.environ['APP_SETTINGS'])
 
 @app.route('/')
 def hello():
-    return "Hello World!"
+    return jsonify({"response": "Hello World!"})
 
 username = 'fullstack-challenge'
 api_key = '9db71b322d43a6ac0f681784ebdcc6409bb83359'
