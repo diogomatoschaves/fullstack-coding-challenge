@@ -78,11 +78,11 @@ class TranslationsList extends Component {
           {orderedTranslations && orderedTranslations.map(translation => {
 
             return (
-              <div key={translation.id} className="flex-row" style={{width: '100%', justifyContent: 'space-between'}}>
+              <div key={translation.id} className="flex-row translation-item-wrapper" style={{width: '100%', justifyContent: 'space-between'}}>
                 <ListGroupItem
                   bsStyle={styleOptions[translation.status]}
-                  style={{cursor: 'pointer', padding: 0, width: '77%'}}
-                  className="flex-column"
+                  style={{cursor: 'pointer', padding: 0, width: '77%', border: translation.expanded && '2px solid rgb(180, 180, 180)'}}
+                  className="flex-column translation-item"
                 >
                   <div onClick={() => expandTranslation(translation.id)} className="flex-column" style={{width: '100%', padding: '20px'}}>
                     <div className='flex-row' style={{width: '100%', justifyContent: 'space-between'}}>

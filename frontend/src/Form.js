@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react'
 import { FormGroup, ControlLabel, FormControl, Button, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap'
+import { sendRequestAsync, getResultAsync } from './apiCalls'
 
 
 class Form extends Component {
@@ -49,82 +50,73 @@ class Form extends Component {
       this.setState({ showMessage: false })
     }, 3000)
 
-    const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
-      : process.env.REACT_APP_API_URL_PRODUCTION}/check_confirmation?jobId=${jobId}&id=${id}`;
-
-    const headers = new Headers()
-
-    const timeoutCallback = () => {
+    const timeoutCallback = async () => {
       i++
-      fetch(url, {
-        method: 'get',
-        headers,
-      })
-        .then(res => res.json())
-        .then(response => {
-          if (response.uid) {
-            addUid(id, response.uid)
+      try {
+        const response = await getResultAsync({ jobId, id })
+        
+        if (response.uid) {
+          addUid(id, response.uid)
+          setTimeout(() => {
+            checkStatus([{id, uid: response.uid}])
+          }, 3000)
+        } else {
+          if (response.status && response.status === 'failed') {
+            this.setState({
+              showMessage: true,
+              message: 'The request failed. Please try again',
+              bsStyle: 'danger'
+            })
             setTimeout(() => {
-              checkStatus([{ id, uid: response.uid }])
+              this.setState({showMessage: false})
             }, 3000)
+            updateTranslation(id, {
+              status: 'failed',
+            })
           } else {
-            if (response.status && response.status === 'failed') {
-              this.setState({
-                showMessage: true,
-                message: 'The request failed. Please try again',
-                bsStyle: 'danger'
-              })
-              setTimeout(() => {
-                this.setState({ showMessage: false })
-              }, 3000)
-              updateTranslation(id, {
-                status: 'failed',
-              })
-            } else {
-              const { translations } = this.props
-              if (Object.keys(translations).includes(id)) setTimeout(timeoutCallback, (7 - i) >= 2 ? (7 - i)*1000 : 2000)
-            }
+            const {translations} = this.props
+            if (Object.keys(translations).includes(id)) setTimeout(timeoutCallback, (7 - i) >= 2 ? (7 - i) * 1000 : 2000)
           }
+        }
+      } catch (err) {
+        this.setState({
+          showMessage: true,
+          message: 'The request failed. Please try again',
+          bsStyle: 'danger'
         })
+        setTimeout(() => {
+          this.setState({showMessage: false})
+        }, 3000)
+      }
     }
     setTimeout(timeoutCallback, 7000)
   }
 
-  buttonSubmit = () => {
+  buttonSubmit = async () => {
 
     const { text } = this.state
     const { sourceLang, targetLang } = this.state
 
     this.setState({ text: '' })
 
-    if (!text) return
-
-    const headers = new Headers()
-    
-    const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
-      : process.env.REACT_APP_API_URL_PRODUCTION}/new_translation`;
-    
     const timeStamp = new Date().getTime()
 
     const body =  JSON.stringify({ text, sourceLang: sourceLang.key, targetLang: targetLang.key, timeStamp })
-    
-    fetch(url, {
-      method: 'post',
-      headers,
-      body
-    })
-      .then(res => res.json())
-      .then(response => this.getResult({ jobId: response.job_id, id: response.translation_job, text, timeStamp }))
-      .catch(error => {
-        this.setState({
-          showMessage: true,
-          message: 'There was an error processing your request. Make sure you are connected to the internet.',
-          bsStyle: 'danger'
-        })
-        setTimeout(() => {
-          this.setState({ showMessage: false })
-        }, 3000)
+
+    try {
+      const response = await sendRequestAsync(body)
+      response && this.getResult({jobId: response.job_id, id: response.translation_job, text, timeStamp})
+
+    } catch (err) {
+      this.setState({
+        showMessage: true,
+        message: 'There was an error processing your request. Make sure you are connected to the internet.',
+        bsStyle: 'danger'
       })
+      setTimeout(() => {
+        this.setState({showMessage: false})
+      }, 3000)
+    }
   }
 
   handleChange = (e) => {
@@ -181,7 +173,7 @@ class Form extends Component {
             />
           </FormGroup>
           <div className="flex-row" style={{width: '20%'}}>
-            <Button disabled={!text} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
+            <Button id="send-request" disabled={!text} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
               Send Request
             </Button>
           </div>

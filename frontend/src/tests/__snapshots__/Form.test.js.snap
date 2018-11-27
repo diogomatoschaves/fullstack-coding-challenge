@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expect to render Form component 1`] = `
+<div
+  className="flex-column"
+  style={
+    Object {
+      "justifyContent": "space-around",
+      "maxWidth": "850px",
+      "width": "80%",
+    }
+  }
+>
+  <div
+    className="flex-row"
+    style={
+      Object {
+        "alignSelf": "flex-start",
+        "justifyContent": "flex-start",
+      }
+    }
+  >
+    <div>
+      <strong>
+        From:
+      </strong>
+      <DropdownButton
+        id="dropdown-basic"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        title="English"
+      >
+        <MenuItem
+          bsClass="dropdown"
+          disabled={false}
+          divider={false}
+          eventKey="1"
+          header={false}
+          key="en"
+          onClick={[Function]}
+        >
+          English
+        </MenuItem>
+      </DropdownButton>
+    </div>
+    <div
+      style={
+        Object {
+          "paddingLeft": "20px",
+        }
+      }
+    >
+      <strong>
+        To:
+      </strong>
+      <DropdownButton
+        id="dropdown-basic"
+        style={
+          Object {
+            "marginLeft": "10px",
+          }
+        }
+        title="Spanish"
+      >
+        <MenuItem
+          bsClass="dropdown"
+          disabled={false}
+          divider={false}
+          eventKey="1"
+          header={false}
+          key="es"
+          onClick={[Function]}
+        >
+          Spanish
+        </MenuItem>
+      </DropdownButton>
+    </div>
+  </div>
+  <div
+    className="flex-row"
+    style={
+      Object {
+        "justifyContent": "space-between",
+        "marginTop": "15px",
+        "width": "100%",
+      }
+    }
+  >
+    <FormGroup
+      bsClass="form-group"
+      style={
+        Object {
+          "width": "77%",
+        }
+      }
+    >
+      <FormControl
+        bsClass="form-control"
+        componentClass="textarea"
+        onChange={[Function]}
+        placeholder="Insert your text here"
+        style={
+          Object {
+            "height": "150px",
+          }
+        }
+        value=""
+      />
+    </FormGroup>
+    <div
+      className="flex-row"
+      style={
+        Object {
+          "width": "20%",
+        }
+      }
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsSize="large"
+        bsStyle="primary"
+        disabled={true}
+        id="send-request"
+        onClick={[Function]}
+      >
+        Send Request
+      </Button>
+    </div>
+  </div>
+  <ListGroupItem
+    bsClass="list-group-item"
+    bsSize="large"
+    className="message-to-user flex-column"
+    listItem={false}
+    style={
+      Object {
+        "top": "-200px",
+      }
+    }
+  />
+</div>
+`;

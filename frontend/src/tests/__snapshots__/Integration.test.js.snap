@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`adding a translation renders without crashing 1`] = `
+<div
+  className="flex-row"
+  style={
+    Object {
+      "justifyContent": "space-around",
+      "maxWidth": "850px",
+      "width": "80%",
+    }
+  }
+>
+  <ListGroup
+    bsClass="list-group"
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  />
+</div>
+`;

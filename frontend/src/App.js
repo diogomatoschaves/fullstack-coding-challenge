@@ -1,70 +1,66 @@
 import React, { Component } from 'react';
-import '../App.css';
+import './App.css';
 import { Label } from 'react-bootstrap'
 import Form from './Form'
 import TranslationsList from './TranslationsList'
+import { fetchJobs, checkStatusAsync } from './apiCalls'
 
 class App extends Component {
 
-  state = {
-  }
-
-  componentDidMount() {
-    const headers = new Headers()
-
-    const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
-      : process.env.REACT_APP_API_URL_PRODUCTION}/get_jobs`;
-
-    fetch(url, {
-      method: 'get',
-      headers,
-    })
-      .then(res => res.json())
-      .then(response => {
-        if (response.jobs && response.jobs instanceof Array) {
-          response.jobs.forEach((job) => {
-            this.addTranslation({ 
-              id: String(job.id),
-              originalText: job.original_text, 
-              translatedText: job.translated_text,
-              sourceLang: job.source_lang,
-              targetLang: job.target_lang, 
-              status: job.status,
-              uid: job.uid,
-              timeStamp: job.timestamp * 1000
-            })
-          })
-        }
-      })
+  constructor(props) {
+    super(props)
+    this.state = {
+      translations: {}
+    }
+    this.checkStatus = this.checkStatus.bind(this);
   }
   
-  checkStatus = (itemsToCheck) => {
-    
-    const headers = new Headers()
+  async componentDidMount() {
 
-    itemsToCheck.forEach((item) => {
-      
-      this.updateTranslation(item.id, {disabled: true})
-      
-      const url = `${process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_DEVELOPMENT 
-      : process.env.REACT_APP_API_URL_PRODUCTION}/check_status?uid=${item.uid}&id=${item.id}`;
-
-      fetch(url, {
-        method: 'get',
-        headers,
-      })
-        .then(res => res.json())
-        .then(response => {
-          
-          this.updateTranslation(item.id, {disabled: false})
-          
-          if (response.status === 'completed') {
-            this.updateTranslation(item.id, {
-              status: 'completed',
-              translatedText: response.translatedText
-            })
-          }
+    try {
+      const response = await fetchJobs()
+      console.log('used app.js')
+      if (response.jobs && response.jobs instanceof Array) {
+        response.jobs.forEach((job) => {
+          this.addTranslation({
+            id: String(job.id),
+            originalText: job.original_text,
+            translatedText: job.translated_text,
+            sourceLang: job.source_lang,
+            targetLang: job.target_lang,
+            status: job.status,
+            uid: job.uid,
+            timeStamp: job.timestamp * 1000
+          })
         })
+      }
+    } catch(err) {
+      this.setState({errorStatus: err.message})
+    }
+  }
+  
+  async checkStatus (itemsToCheck) {
+
+    let response
+
+    itemsToCheck.map(async (item) => {
+
+      this.updateTranslation(item.id, {disabled: true})
+
+      try {
+        response = await checkStatusAsync(item)
+
+        response && this.updateTranslation(item.id, {disabled: false})
+
+        if (response.status === 'completed') {
+          this.updateTranslation(item.id, {
+            status: 'completed',
+            translatedText: response.translatedText
+          })
+        }
+      } catch (err) {
+        this.setState({errorStatus: err.message})
+      }
     })
   }
   
@@ -169,7 +165,7 @@ class App extends Component {
     
     return (
       <div className='app flex-column'>
-        <Label className="title"><img src={require('../utils/unbabel-logo.svg')}/>Translation Service</Label>
+        <Label className="title"><img src={require('./utils/unbabel-logo.svg')}/>Translation Service</Label>
         <Form
           addUid={this.addUid}
           addTranslation={this.addTranslation}
