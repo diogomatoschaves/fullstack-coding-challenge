@@ -2,17 +2,17 @@
 
 In order to install the frontend dependencies as per `frontend/package.json`, run the following commands on your terminal:
 
-`cd frontend`<br>
-`npm install`.
+`$ cd frontend`<br>
+`$ npm install`.
 
 ### Start development server
 
 In order to start the development server, run:
 
-`npm start`
+`$ npm start`
 
 ### Run tests
 
 In order to run tests, run:
 
-`npm run test`
+`$ npm run test`

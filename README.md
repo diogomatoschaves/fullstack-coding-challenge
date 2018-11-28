@@ -10,7 +10,7 @@ the React Javascript framework, whereas the backend was built on top of the Flas
 
 ## Prerequisites
 
-You'll need to have installed in your machine the following packages:
+You'll need to have the following packages installed in your machine:
 
 - python 3
 - npm
