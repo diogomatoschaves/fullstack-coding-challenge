@@ -1,8 +1,8 @@
 ### Create .env file and create the following environment variables
 
-`APP_SETTINGS="config.DevelopmentConfig"
-SECRET_KEY=<SECRET KEY>
-SQLALCHEMY_DATABASE_URI="postgresql://@localhost/<DATABASE_NAME>"`
+`export APP_SETTINGS="config.DevelopmentConfig"`
+`export SECRET_KEY=<SECRET KEY>`
+`export SQLALCHEMY_DATABASE_URI="postgresql://@localhost/<DATABASE_NAME>`
 
 ### Install Backend dependencies
 
@@ -43,10 +43,10 @@ On the first one, run:
 For the next terminal windows, you'll need to first execute the command to activate the virtual env,
 and then export the environment variables:
 
-`pipenv shell
-APP_SETTINGS="config.DevelopmentConfig"
-SECRET_KEY=<SECRET KEY>
-SQLALCHEMY_DATABASE_URI="postgresql://@localhost/<DATABASE_NAME>
+`pipenv shell`
+`export APP_SETTINGS="config.DevelopmentConfig"`
+`export SECRET_KEY=<SECRET KEY>`
+`export SQLALCHEMY_DATABASE_URI="postgresql://@localhost/<DATABASE_NAME>`
 `
 
 On the seconf terminal window, run:
