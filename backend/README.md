@@ -43,10 +43,10 @@ On the first one, run:
 For the next terminal windows, you'll need to first execute the command to activate the virtual env,
 and then export the environment variables:
 
-`pipenv shell` <br>
-`export APP_SETTINGS="config.DevelopmentConfig"` <br>
-`export SECRET_KEY=<SECRET KEY>` <br>
-`export SQLALCHEMY_DATABASE_URI="postgresql://@localhost/<DATABASE_NAME>`
+`$ pipenv shell` <br>
+`$ export APP_SETTINGS="config.DevelopmentConfig"` <br>
+`$ export SECRET_KEY=<SECRET KEY>` <br>
+`$ export SQLALCHEMY_DATABASE_URI="postgresql://@localhost/<DATABASE_NAME>`
 `
 
 On the seconf terminal window, run:
