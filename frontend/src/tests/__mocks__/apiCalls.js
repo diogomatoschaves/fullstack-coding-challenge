@@ -37,9 +37,12 @@ const mockJobsResponse = [
 ]
 
 export const fetchJobs = jest.fn()
-  .mockImplementationOnce(() => ({
-    jobs: mockJobsResponse
-  }))
+  .mockImplementationOnce(() => {
+    console.log('mock fetch jobs was called')
+    return {
+      jobs: mockJobsResponse
+    }
+  })
   .mockImplementationOnce(() => {
     throw(new Error('Error fetching jobs'))
   })
@@ -58,11 +61,9 @@ const mockStatusResponse = {
 }
 
 export const checkStatusAsync = jest.fn()
-  .mockImplementationOnce(() => ({
-    jobs: mockStatusResponse
-  }))
-  .mockImplementationOnce(() => {
-    throw(new Error('Error checking status'))
+  .mockImplementation((item) => (mockStatusResponse))
+  .mockImplementation((item) => {
+    throw(new Error('Error checking job status'))
   })
 
 const mockResultResponse = {
@@ -78,23 +79,25 @@ const mockResultResponse = {
 }
 
 export const getResultAsync = jest.fn()
-  .mockImplementationOnce(() => ({
-    jobs: mockResultResponse
-  }))
-  .mockImplementationOnce(() => {
+  .mockImplementation(({ jobId, id }) => {
+    console.log('mock get result was called')
+    return mockResultResponse
+  })
+  .mockImplementation(({ jobId, id }) => {
     throw(new Error('Error fetching result'))
   })
 
 const mockServerResponse = {
   job_id: '57dade01-e7e1-42f9-b198-4ed7065a5139',
-  translated_job: '10',
+  translation_job: '10',
 }
 
 export const sendRequestAsync = jest.fn()
-  .mockImplementationOnce(() => ({
-    jobs: mockServerResponse
-  }))
-  .mockImplementationOnce(() => {
+  .mockImplementation((body) => {
+    console.log('mock send request was called')
+    return mockServerResponse
+  })
+  .mockImplementation((body) => {
     throw(new Error('Error sending request'))
   })
 

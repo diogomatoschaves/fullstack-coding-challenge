@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders without crashing 1`] = `
+<div
+  className="app flex-column"
+>
+  <Label
+    bsClass="label"
+    bsStyle="default"
+    className="title"
+  >
+    <img
+      src={
+        Object {
+          "ReactComponent": [Function],
+          "__esModule": true,
+          "default": "unbabel-logo.svg",
+        }
+      }
+    />
+    Translation Service
+  </Label>
+  <Form
+    addTranslation={[Function]}
+    addUid={[Function]}
+    checkStatus={[Function]}
+    sourceLangs={
+      Array [
+        Object {
+          "key": "en",
+          "name": "English",
+        },
+      ]
+    }
+    targetLangs={
+      Array [
+        Object {
+          "key": "es",
+          "name": "Spanish",
+        },
+      ]
+    }
+    translations={Object {}}
+    updateTranslation={[Function]}
+  />
+  <TranslationsList
+    checkStatus={[Function]}
+    deleteTranslation={[Function]}
+    expandTranslation={[Function]}
+    styleOptions={
+      Object {
+        "completed": "success",
+        "failed": "danger",
+        "pending": "info",
+        "requesting": "warning",
+      }
+    }
+    translations={Object {}}
+  />
+</div>
+`;

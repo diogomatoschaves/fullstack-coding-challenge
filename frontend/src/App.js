@@ -19,7 +19,6 @@ class App extends Component {
 
     try {
       const response = await fetchJobs()
-      console.log('used app.js')
       if (response.jobs && response.jobs instanceof Array) {
         response.jobs.forEach((job) => {
           this.addTranslation({

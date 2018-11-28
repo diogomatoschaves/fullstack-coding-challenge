@@ -65,9 +65,7 @@ class TranslationsList extends Component {
   render() {
 
     const { translations, styleOptions, expandTranslation, checkStatus } = this.props
-
-    // const sortProp = optionsSort.filter((option) => option.value === valueSort)[0].key;
-
+    
     const orderedTranslations = translations ? Object.keys(translations).map(key => translations[key]).sort((a, b) => {
       return b.originalText.length - a.originalText.length
     }) : []
@@ -93,13 +91,13 @@ class TranslationsList extends Component {
                     {translation.expanded && (
                       <div style={{width: '100%', marginTop: '15px'}}>
                         <strong>Original Text:</strong>
-                        <Well style={{width: '100%'}}>
+                        <Well style={{width: '100%', backgroundColor: 'white'}}>
                           {translation.originalText}
                         </Well>
                         {translation.translatedText && (
                           <div style={{width: '100%', marginTop: '15px'}}>
                             <strong>Translated Text:</strong>
-                            <Well style={{width: '100%'}}>
+                            <Well style={{width: '100%', backgroundColor: 'white'}}>
                               {translation.translatedText}
                             </Well>
                           </div>

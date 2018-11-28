@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`expect to render Form component 1`] = `
+exports[`Form expect to render Form component 1`] = `
 <div
   className="flex-column"
   style={
@@ -100,6 +100,7 @@ exports[`expect to render Form component 1`] = `
       <FormControl
         bsClass="form-control"
         componentClass="textarea"
+        id="input-textarea"
         onChange={[Function]}
         placeholder="Insert your text here"
         style={
@@ -127,6 +128,7 @@ exports[`expect to render Form component 1`] = `
         disabled={true}
         id="send-request"
         onClick={[Function]}
+        type="button"
       >
         Send Request
       </Button>

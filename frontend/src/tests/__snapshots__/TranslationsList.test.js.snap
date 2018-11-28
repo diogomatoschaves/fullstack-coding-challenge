@@ -1,0 +1,276 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`adding a translation renders without crashing 1`] = `
+<div
+  className="flex-row"
+  style={
+    Object {
+      "justifyContent": "space-around",
+      "maxWidth": "850px",
+      "width": "80%",
+    }
+  }
+>
+  <ListGroup
+    bsClass="list-group"
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      className="flex-row translation-item-wrapper"
+      key="10"
+      style={
+        Object {
+          "justifyContent": "space-between",
+          "width": "100%",
+        }
+      }
+    >
+      <ListGroupItem
+        bsClass="list-group-item"
+        bsStyle="info"
+        className="flex-column translation-item"
+        listItem={false}
+        style={
+          Object {
+            "border": undefined,
+            "cursor": "pointer",
+            "padding": 0,
+            "width": "77%",
+          }
+        }
+      >
+        <div
+          className="flex-column"
+          onClick={[Function]}
+          style={
+            Object {
+              "padding": "20px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="flex-row"
+            style={
+              Object {
+                "justifyContent": "space-between",
+                "width": "100%",
+              }
+            }
+          >
+            <div
+              className="message-header"
+              style={
+                Object {
+                  "width": "40%",
+                }
+              }
+            >
+              The Cross-Origin Resource Sharing standard works by adding new HTTP headers that allow servers to 
+            </div>
+            <div
+              style={
+                Object {
+                  "textAlign": "center",
+                  "width": "25%",
+                }
+              }
+            >
+              <strong>
+                time: 
+              </strong>
+              2 days ago
+            </div>
+            <div
+              style={
+                Object {
+                  "textAlign": "right",
+                  "width": "30%",
+                }
+              }
+            >
+              <strong>
+                status: 
+              </strong>
+              pending
+            </div>
+          </div>
+        </div>
+      </ListGroupItem>
+      <div
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "paddingTop": "20px",
+            "textAlign": "center",
+            "width": "20%",
+          }
+        }
+      >
+        <ButtonGroup
+          block={false}
+          bsClass="btn-group"
+          justified={false}
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
+          vertical={false}
+        >
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="info"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Update
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="danger"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Delete
+          </Button>
+        </ButtonGroup>
+      </div>
+    </div>
+    <div
+      className="flex-row translation-item-wrapper"
+      key="12"
+      style={
+        Object {
+          "justifyContent": "space-between",
+          "width": "100%",
+        }
+      }
+    >
+      <ListGroupItem
+        bsClass="list-group-item"
+        bsStyle="success"
+        className="flex-column translation-item"
+        listItem={false}
+        style={
+          Object {
+            "border": undefined,
+            "cursor": "pointer",
+            "padding": 0,
+            "width": "77%",
+          }
+        }
+      >
+        <div
+          className="flex-column"
+          onClick={[Function]}
+          style={
+            Object {
+              "padding": "20px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="flex-row"
+            style={
+              Object {
+                "justifyContent": "space-between",
+                "width": "100%",
+              }
+            }
+          >
+            <div
+              className="message-header"
+              style={
+                Object {
+                  "width": "40%",
+                }
+              }
+            >
+              Powered by AI and refined by a global community of tens of thousands of human linguists,
+            </div>
+            <div
+              style={
+                Object {
+                  "textAlign": "center",
+                  "width": "25%",
+                }
+              }
+            >
+              <strong>
+                time: 
+              </strong>
+              2 days ago
+            </div>
+            <div
+              style={
+                Object {
+                  "textAlign": "right",
+                  "width": "30%",
+                }
+              }
+            >
+              <strong>
+                status: 
+              </strong>
+              completed
+            </div>
+          </div>
+        </div>
+      </ListGroupItem>
+      <div
+        style={
+          Object {
+            "alignSelf": "flex-start",
+            "paddingTop": "20px",
+            "textAlign": "center",
+            "width": "20%",
+          }
+        }
+      >
+        <ButtonGroup
+          block={false}
+          bsClass="btn-group"
+          justified={false}
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
+          vertical={false}
+        >
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="info"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Update
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="danger"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Delete
+          </Button>
+        </ButtonGroup>
+      </div>
+    </div>
+  </ListGroup>
+</div>
+`;

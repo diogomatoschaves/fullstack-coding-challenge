@@ -11,12 +11,6 @@ const mockServerResponse = {"10": {"id": "10", "jobId": undefined, "originalText
 
 describe('App', () => {
   
-  // let renderedComponent
-  //
-  // beforeEach(async () => {
-  //  
-  // })
-  
   describe('componentDidMount', () => {
     it('sets the state componentDidMount', async() => {
       const renderedComponent = await shallow(<App />)
@@ -31,38 +25,17 @@ describe('App', () => {
       expect(renderedComponent.state().errorStatus).toEqual('Error fetching jobs')
     })
   })
-  
-  describe('send new translation request', () => {
-    
-    
-    
-    it('should enable button once some text is inside textarea', async () => {
-      const renderedComponent = await shallow(<Form />)
-      const button = renderedComponent.find('[id="send-request"]').at(0);
 
-      expect(button.props().disabled).toBe(true)
-      
-      const instance = renderedComponent.instance();
-      await instance.handleChange({target: {value: 'Message'}})
-      
-      expect(renderedComponent.state('text')).toEqual('Message')
-      
-      expect(button.props().disabled).toBe(false)
-      
-      
-      
-      // button.simulate('click');
+  describe('check status', () => {
+
+    it('', () => {
       
     })
-    
+
   })
-
-
-    // it('renders without crashing', () => {
-    //   expect(shallow(<App />)).toMatchSnapshot()
-    // });
-
-
-    
+  
+  it('renders without crashing', () => {
+    expect(shallow(<App />)).toMatchSnapshot()
+  });
 
 })

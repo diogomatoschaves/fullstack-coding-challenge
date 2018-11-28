@@ -8,6 +8,25 @@ import { sendRequestAsync, getResultAsync } from './apiCalls'
 
 
 class Form extends Component {
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      message: '',
+      text: '',
+      sourceLang: {
+        name: 'English',
+        key: 'en'
+      },
+      targetLang: {
+        name: 'Spanish',
+        key: 'es'
+      },
+      buttonDisabled: true
+    }
+    this.getResult = this.getResult.bind(this)
+    this.buttonSubmit = this.buttonSubmit.bind(this)
+  }
 
   static defaultProps = {
     sourceLangs: [{
@@ -20,20 +39,9 @@ class Form extends Component {
     }]
   }
 
-  state = {
-    message: '',
-    text: '',
-    sourceLang: {
-      name: 'English',
-      key: 'en'
-    },
-    targetLang: {
-      name: 'Spanish',
-      key: 'es'
-    }
-  }
-
-  getResult = ({ jobId, id, text, timeStamp }) => {
+  getResult({ jobId, id, text, timeStamp }) {
+    
+    console.log('this is being called')
 
     const { addUid, addTranslation, updateTranslation, checkStatus } = this.props
     const { sourceLang, targetLang } = this.state
@@ -54,6 +62,8 @@ class Form extends Component {
       i++
       try {
         const response = await getResultAsync({ jobId, id })
+        
+        console.log(response)
         
         if (response.uid) {
           addUid(id, response.uid)
@@ -92,10 +102,12 @@ class Form extends Component {
     setTimeout(timeoutCallback, 7000)
   }
 
-  buttonSubmit = async () => {
-
+  async buttonSubmit () {
+    
     const { text } = this.state
     const { sourceLang, targetLang } = this.state
+    
+    if (!text) return null
 
     this.setState({ text: '' })
 
@@ -106,6 +118,7 @@ class Form extends Component {
     try {
       const response = await sendRequestAsync(body)
       response && this.getResult({jobId: response.job_id, id: response.translation_job, text, timeStamp})
+      console.log('this too was called')
 
     } catch (err) {
       this.setState({
@@ -120,12 +133,12 @@ class Form extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({ text: e.target.value });
+    this.setState({ text: e.target.value, buttonDisabled: !e.target.value });
   }
   
   render() {
 
-    const { text, message, showMessage, bsStyle, sourceLang, targetLang } = this.state
+    const { text, message, showMessage, bsStyle, sourceLang, targetLang, buttonDisabled } = this.state
     const { sourceLangs, targetLangs } = this.props
 
     return (
@@ -163,8 +176,8 @@ class Form extends Component {
         </div>
         <div className="flex-row" style={{width: '100%', justifyContent: 'space-between', marginTop: '15px'}}>
           <FormGroup style={{width: '77%'}}>
-
             <FormControl
+              id="input-textarea"
               value={text}
               onChange={this.handleChange}
               componentClass="textarea"
@@ -173,7 +186,8 @@ class Form extends Component {
             />
           </FormGroup>
           <div className="flex-row" style={{width: '20%'}}>
-            <Button id="send-request" disabled={!text} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
+            {/*<button id="send-request" onClick={this.buttonSubmit} disabled={buttonDisabled}>Send Request</button>*/}
+            <Button type="button" id="send-request" disabled={buttonDisabled} bsStyle="primary" bsSize="large" onClick={this.buttonSubmit}>
               Send Request
             </Button>
           </div>

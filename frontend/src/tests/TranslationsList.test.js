@@ -11,10 +11,39 @@ import { shallow } from 'enzyme'
 
 
 describe(`adding a translation`, () => {
+  
+  const mockTranslations = {
+    "10": {
+      "id": "10", 
+      "jobId": undefined, 
+      "originalText": "The Cross-Origin Resource Sharing standard works by adding new HTTP headers that allow servers to ",
+      "sourceLang": "en", 
+      "status": "pending", 
+      "targetLang": "es", 
+      "timeStamp": 1543174176000, 
+      "translatedText": "", 
+      "uid": "9e48eec7c4"}, 
+    "12": {
+      "id": "12", 
+      "jobId": undefined, 
+      "originalText": "Powered by AI and refined by a global community of tens of thousands of human linguists,", 
+      "sourceLang": "en", 
+      "status": "completed",
+      "targetLang": "es", 
+      "timeStamp": 1543174282000,
+      "translatedText": "Desarrollado por AI y refinado por una comunidad global de decenas de miles de lingüistas humanos", 
+      "uid": "913c966163"
+    },
+  }
 
   it('renders without crashing', () => {
-    expect(shallow(<TranslationsList />)).toMatchSnapshot()
+    expect(shallow(<TranslationsList translations={mockTranslations} />)).toMatchSnapshot()
   });
+  
+  
+  it('', () => {
+
+  })
 
 })
 

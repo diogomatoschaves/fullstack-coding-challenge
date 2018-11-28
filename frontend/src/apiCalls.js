@@ -21,7 +21,6 @@ export const fetchJobs = async () => {
   }
 }
 
-
 export const checkStatusAsync = async (item) => {
 
   const headers = new Headers()
@@ -54,12 +53,11 @@ export const getResultAsync = async ({ jobId, id }) => {
   })
   
   if (response.status >= 400) {
-    throw(new Error('Error checking job status'))
+    throw(new Error('Error fetching result'))
   } else {
     return await response.json()
   }
 }
-
 
 export const sendRequestAsync = async (body) => {
   
@@ -75,7 +73,7 @@ export const sendRequestAsync = async (body) => {
   })
       
   if (response.status >= 400) {
-    throw(new Error('Error checking job status'))
+    throw(new Error('Error sending request'))
   } else {
     return await response.json()
   }

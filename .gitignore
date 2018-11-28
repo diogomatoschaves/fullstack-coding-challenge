@@ -2,6 +2,7 @@ backend/env
 backend/.env
 backend/dump.rdb
 dump.rdb
+test.db
 __pycache__/
 .idea/
 
