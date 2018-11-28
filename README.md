@@ -7,6 +7,10 @@ The app consists of a user interface for translating Content in english to Spani
 with a backend that handles the requests the client sends. The frontend was implemented with
 the React Javascript framework, whereas the backend was built on top of the Flask Framework.
 
+You can test the app on the following link:
+
+https://diogomatoschaves.github.io/fullstack-coding-challenge/
+
 
 ## Prerequisites
 
