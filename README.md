@@ -12,10 +12,10 @@ the React Javascript framework, whereas the backend was built on top of the Flas
 
 You'll need to have the following packages installed in your machine:
 
-- python 3
-- npm
+- python 3 (with pipenv)
 - redis (brew install redis)
 - postgreSQL
+- npm
 
 
 ## Installation & Usage
